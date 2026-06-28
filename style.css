@@ -318,6 +318,29 @@ button {
 
 button:disabled { opacity: 0.4; cursor: not-allowed; }
 
+#mp-status {
+  font-size: 0.8rem;
+  color: #cdd;
+  text-align: center;
+}
+
+.mp-link-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  justify-content: center;
+}
+
+.mp-link-row input {
+  width: 320px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid #444;
+  background: #1a1a2e;
+  color: #eee;
+  font-size: 0.75rem;
+}
+
 #log {
   font-size: 0.75rem;
   color: #999;

@@ -52,6 +52,12 @@ function equityForWhite(s) {
   return blackPipCount(s) - whitePipCount(s);
 }
 
+// Equity from the local player's perspective (white or black, depending on mpMyColor()).
+function equityForMe(s) {
+  const eq = equityForWhite(s);
+  return mpMyColor() === 'white' ? eq : -eq;
+}
+
 // ---------- Helpers ----------
 function cloneState(s) {
   return {
@@ -256,14 +262,18 @@ function render() {
   renderDice();
   document.getElementById('log').innerHTML = state.log.slice(-30).reverse().map(l => `<div>${l}</div>`).join('');
 
+  const me = mpMyColor();
   const turnInfo = document.getElementById('turn-info');
   if (state.gameOver) {
     turnInfo.textContent = 'Game over';
+  } else if (state.turn === me) {
+    turnInfo.textContent = `Your turn (${me === 'white' ? 'White' : 'Black'}) — click a glowing checker, then a glowing point`;
   } else {
-    turnInfo.textContent = state.turn === 'white' ? "Your turn (White) — click a glowing checker, then a glowing point" : "Opponent's turn (Black)";
+    turnInfo.textContent = `Opponent's turn (${state.turn === 'white' ? 'White' : 'Black'})`;
   }
 
-  document.getElementById('undo-btn').disabled = undoStack.length === 0 || state.turn !== 'white' || state.gameOver;
+  document.getElementById('roll-btn').disabled = !(state.turn === me && state.dice.length === 0 && !state.gameOver);
+  document.getElementById('undo-btn').disabled = MP.active || undoStack.length === 0 || state.turn !== me || state.gameOver;
 }
 
 function renderBar(elId, count, color) {
@@ -320,21 +330,24 @@ function animateRoll(finalValues, onDone) {
 
 // returns list of legal source points (own checkers or bar) the player could currently select from
 function currentLegalSources() {
-  if (state.gameOver || state.turn !== 'white' || state.dice.length === 0) return [];
-  const moves = allLegalMoves(state, 'white', state.dice);
+  const me = mpMyColor();
+  if (state.gameOver || state.turn !== me || state.dice.length === 0) return [];
+  const moves = allLegalMoves(state, me, state.dice);
   return [...new Set(moves.map(m => m.from))];
 }
 
 // when a source is selected, returns legal destination points for it
 function currentLegalDestinations() {
   if (state.selected === null) return [];
-  const moves = allLegalMoves(state, 'white', state.dice).filter(m => m.from === state.selected);
+  const me = mpMyColor();
+  const moves = allLegalMoves(state, me, state.dice).filter(m => m.from === state.selected);
   return moves.map(m => m.to);
 }
 
 // ---------- Interaction ----------
 function onPointClick(p) {
-  if (state.gameOver || state.turn !== 'white' || state.dice.length === 0) return;
+  const me = mpMyColor();
+  if (state.gameOver || state.turn !== me || state.dice.length === 0) return;
   const sources = currentLegalSources();
 
   if (state.selected === null) {
@@ -351,29 +364,30 @@ function onPointClick(p) {
     return;
   }
 
-  const candidateMoves = allLegalMoves(state, 'white', state.dice).filter(m => m.from === state.selected && m.to === p);
+  const candidateMoves = allLegalMoves(state, me, state.dice).filter(m => m.from === state.selected && m.to === p);
   if (candidateMoves.length === 0) {
     if (sources.includes(p)) { state.selected = p; render(); }
     return;
   }
 
   const move = candidateMoves.sort((a, b) => a.die - b.die)[0];
-  playWhiteMove(move);
+  playMyMove(move);
 }
 
-function playWhiteMove(move) {
-  undoStack.push(snapshot());
+function playMyMove(move) {
+  const me = mpMyColor();
+  if (!MP.active) undoStack.push(snapshot());
 
-  const allOptions = allLegalMoves(state, 'white', state.dice);
+  const allOptions = allLegalMoves(state, me, state.dice);
   if (allOptions.length > 1) {
     let bestEquity = -Infinity;
     for (const opt of allOptions) {
-      const ns = applyMove(state, opt, 'white');
-      const eq = equityForWhite(ns);
+      const ns = applyMove(state, opt, me);
+      const eq = equityForMe(ns);
       if (eq > bestEquity) bestEquity = eq;
     }
-    const chosenState = applyMove(state, move, 'white');
-    const chosenEquity = equityForWhite(chosenState);
+    const chosenState = applyMove(state, move, me);
+    const chosenEquity = equityForMe(chosenState);
     const error = bestEquity - chosenEquity;
     state.stats.decisions += 1;
     state.stats.totalError += error;
@@ -386,12 +400,13 @@ function playWhiteMove(move) {
     state.log.push(`You played ${describeMove(move)} (forced).`);
   }
 
-  applyMoveInPlace(move, 'white');
+  applyMoveInPlace(move, me);
   removeDie(move.die);
   state.selected = null;
   checkGameOver();
   if (!state.gameOver) maybeEndTurn();
   render();
+  mpPushState();
 }
 
 function describeMove(move) {
@@ -430,18 +445,18 @@ function endTurn() {
   state.diceUsed = [];
   state.selected = null;
   undoStack = [];
-  if (state.gameOver) return;
+  if (state.gameOver) { mpPushState(); render(); return; }
   state.turn = state.turn === 'white' ? 'black' : 'white';
-  if (state.turn === 'black') {
+  mpPushState();
+  if (!MP.active && state.turn === 'black') {
     document.getElementById('roll-btn').disabled = true;
     setTimeout(playBlackTurn, 500);
-  } else {
-    document.getElementById('roll-btn').disabled = false;
   }
+  render();
 }
 
 function doUndo() {
-  if (undoStack.length === 0) return;
+  if (MP.active || undoStack.length === 0) return;
   state = undoStack.pop();
   render();
 }
@@ -522,29 +537,37 @@ function showRating() {
 
 // ---------- Setup ----------
 function newGame() {
+  if (MP.ref) MP.ref.off();
+  MP.active = false;
+  MP.roomId = null;
+  MP.ref = null;
   state = freshState();
   undoStack = [];
   document.getElementById('rating-modal').classList.add('hidden');
+  document.getElementById('mp-status').innerHTML = '';
   document.getElementById('roll-btn').disabled = false;
   render();
 }
 
 function doRoll() {
-  if (state.dice.length > 0 || state.turn !== 'white' || state.gameOver) return;
+  const me = mpMyColor();
+  if (state.dice.length > 0 || state.turn !== me || state.gameOver) return;
   document.getElementById('roll-btn').disabled = true;
   const dice = rollDice();
   animateRoll(dice, () => {
     state.dice = dice;
     state.diceUsed = [];
-    state.log.push(`You roll ${state.dice.join(', ')}`);
-    const moves = allLegalMoves(state, 'white', state.dice);
+    state.log.push(`${me === 'white' ? 'White' : 'Black'} rolls ${dice.join(', ')}`);
+    const moves = allLegalMoves(state, me, state.dice);
     if (moves.length === 0) {
       state.log.push('No legal moves — turn passes.');
       render();
+      mpPushState();
       setTimeout(endTurn, 600);
       return;
     }
     render();
+    mpPushState();
   });
 }
 
@@ -553,6 +576,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('new-game-btn').addEventListener('click', newGame);
   document.getElementById('roll-btn').addEventListener('click', doRoll);
   document.getElementById('undo-btn').addEventListener('click', doUndo);
+  document.getElementById('create-room-btn').addEventListener('click', mpCreateRoom);
   document.getElementById('menu-btn').addEventListener('click', () => {
     document.getElementById('menu-panel').classList.toggle('hidden');
   });
@@ -561,4 +585,5 @@ document.addEventListener('DOMContentLoaded', () => {
     newGame();
   });
   newGame();
+  mpInit();
 });

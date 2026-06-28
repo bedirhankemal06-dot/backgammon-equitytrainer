@@ -63,7 +63,9 @@
     <div id="controls">
       <button id="new-game-btn">New Game</button>
       <button id="roll-btn" disabled>Roll Dice</button>
+      <button id="create-room-btn">Play Online (Create Game)</button>
     </div>
+    <div id="mp-status"></div>
     <div id="log"></div>
   </div>
 
@@ -85,6 +87,10 @@
     </div>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="multiplayer.js"></script>
   <script src="game.js"></script>
 </body>
 </html>
