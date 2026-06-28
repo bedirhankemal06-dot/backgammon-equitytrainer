@@ -55,24 +55,35 @@ function mpSubscribe() {
 }
 
 function mpCreateRoom() {
-  const roomId = randomRoomId();
-  state = freshState();
-  undoStack = [];
+  console.log('[mp] Create Game clicked');
+  try {
+    const roomId = randomRoomId();
+    state = freshState();
+    undoStack = [];
 
-  MP.active = true;
-  MP.roomId = roomId;
-  MP.myColor = 'white';
-  MP.ref = firebase.database().ref('games/' + roomId);
+    MP.active = true;
+    MP.roomId = roomId;
+    MP.myColor = 'white';
+    MP.ref = firebase.database().ref('games/' + roomId);
+    console.log('[mp] room ref created', roomId);
 
-  const initial = mpExtractSyncable(state);
-  initial.meta = { hostColor: 'white', guestJoined: false };
+    const initial = mpExtractSyncable(state);
+    initial.meta = { hostColor: 'white', guestJoined: false };
 
-  MP.ref.set(initial).then(() => {
-    mpSubscribe();
-    const link = window.location.origin + window.location.pathname + '?room=' + roomId;
-    mpShowStatus(`Room created — you are White. Share this link with your friend:`, link);
-    render();
-  }).catch(err => mpShowStatus('Could not create room: ' + err.message, null));
+    MP.ref.set(initial).then(() => {
+      console.log('[mp] room write succeeded');
+      mpSubscribe();
+      const link = window.location.origin + window.location.pathname + '?room=' + roomId;
+      mpShowStatus(`Room created — you are White. Share this link with your friend:`, link);
+      render();
+    }).catch(err => {
+      console.error('[mp] room write failed', err);
+      mpShowStatus('Could not create room: ' + err.message, null);
+    });
+  } catch (err) {
+    console.error('[mp] mpCreateRoom threw synchronously', err);
+    mpShowStatus('Error: ' + err.message, null);
+  }
 }
 
 function mpJoinRoom(roomId) {
