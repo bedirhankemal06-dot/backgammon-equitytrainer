@@ -14,19 +14,27 @@
 
 * { box-sizing: border-box; }
 
-body {
+html, body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: var(--bg);
   color: #eee;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 #app {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 20px;
+  gap: clamp(4px, 1.5vw, 12px);
+  padding: clamp(6px, 2vw, 20px);
+  flex-wrap: wrap;
 }
 
 /* ---------- Left rail: avatars / match meta ---------- */
@@ -48,8 +56,8 @@ body {
 }
 
 .avatar {
-  width: 56px;
-  height: 56px;
+  width: clamp(38px, 9vw, 56px);
+  height: clamp(38px, 9vw, 56px);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -77,26 +85,29 @@ body {
 /* ---------- Table: two board panels + center strip ---------- */
 #table {
   display: flex;
-  gap: 4px;
+  gap: clamp(2px, 0.8vw, 4px);
   background: var(--strip-bg);
-  padding: 10px;
+  padding: clamp(4px, 1.5vw, 10px);
   border-radius: 10px;
+  width: 100%;
+  max-width: 820px;
 }
 
 .board-panel {
   background: linear-gradient(180deg, var(--panel-bg), var(--panel-bg-2));
   border-radius: 8px;
-  padding: 10px 6px;
+  padding: clamp(4px, 1.5vw, 10px) clamp(2px, 1vw, 6px);
   display: flex;
   flex-direction: column;
   gap: 6px;
   position: relative;
-  width: 360px;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .quad-row {
   display: flex;
-  height: 220px;
+  height: clamp(95px, 28vw, 220px);
 }
 
 .point {
@@ -107,6 +118,7 @@ body {
   align-items: center;
   padding-top: 4px;
   cursor: default;
+  min-width: 0;
 }
 
 .point.legal { cursor: pointer; }
@@ -162,10 +174,10 @@ body {
 .quad-row.top .checkers { position: absolute; top: 16px; }
 
 .checker {
-  width: 28px;
-  height: 28px;
+  width: clamp(14px, 4.2vw, 28px);
+  height: clamp(14px, 4.2vw, 28px);
   border-radius: 50%;
-  margin-top: -10px;
+  margin-top: clamp(-7px, -1.5vw, -4px);
   border: 1px solid #0006;
   box-shadow: 0 1px 2px #0006;
   transition: transform 0.15s ease;
@@ -180,7 +192,7 @@ body {
 
 .pip-badge {
   position: absolute;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: #fff;
   background: #0003;
   padding: 2px 6px;
@@ -191,7 +203,7 @@ body {
 
 /* ---------- Center strip: bar / dice / undo / clocks ---------- */
 .center-strip {
-  width: 92px;
+  width: clamp(54px, 14vw, 92px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -203,10 +215,10 @@ body {
   background: #fff;
   color: #111;
   font-weight: 700;
-  font-size: 0.85rem;
-  padding: 4px 10px;
+  font-size: clamp(0.6rem, 1.6vw, 0.85rem);
+  padding: 3px 6px;
   border-radius: 4px;
-  min-width: 50px;
+  min-width: 36px;
   text-align: center;
 }
 
@@ -215,31 +227,31 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  min-height: 30px;
+  min-height: 24px;
   cursor: default;
 }
 
 .bar-zone.legal { cursor: pointer; outline: 2px dashed var(--highlight); border-radius: 4px; }
 
-.bar-zone .checker { width: 22px; height: 22px; margin-top: -6px; }
+.bar-zone .checker { width: clamp(11px, 3.2vw, 22px); height: clamp(11px, 3.2vw, 22px); margin-top: -6px; }
 
 #dice-area {
   display: flex;
-  gap: 6px;
-  min-height: 54px;
+  gap: 4px;
+  min-height: clamp(30px, 9vw, 54px);
   align-items: center;
   justify-content: center;
 }
 
 .die {
-  width: 42px;
-  height: 42px;
+  width: clamp(26px, 7.5vw, 42px);
+  height: clamp(26px, 7.5vw, 42px);
   background: #fff;
   border-radius: 8px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
-  padding: 6px;
+  padding: clamp(3px, 1vw, 6px);
   box-shadow: 0 2px 4px #0006;
 }
 
@@ -255,8 +267,8 @@ body {
 }
 
 .dot {
-  width: 7px;
-  height: 7px;
+  width: clamp(4px, 1.2vw, 7px);
+  height: clamp(4px, 1.2vw, 7px);
   border-radius: 50%;
   background: #1a1a2e;
   align-self: center;
@@ -264,21 +276,21 @@ body {
 }
 
 #undo-btn {
-  font-size: 0.75rem;
-  padding: 6px 10px;
+  font-size: 0.7rem;
+  padding: 5px 8px;
 }
 
 /* ---------- Right rail ---------- */
 #right-rail {
-  width: 44px;
+  width: 40px;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
 .icon-btn {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   background: var(--rail-bg);
   border: none;
   border-radius: 8px;
@@ -289,9 +301,10 @@ body {
 
 /* ---------- Bottom bar ---------- */
 #bottom-bar {
-  max-width: 980px;
+  width: 100%;
+  max-width: 820px;
   margin: 0 auto 30px;
-  padding: 0 20px;
+  padding: 0 clamp(8px, 3vw, 20px);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -299,21 +312,25 @@ body {
 }
 
 #turn-info {
-  font-size: 0.95rem;
+  font-size: clamp(0.8rem, 2.4vw, 0.95rem);
   color: var(--accent);
   font-weight: 600;
+  text-align: center;
 }
 
-#controls { display: flex; gap: 8px; }
+#controls { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
 
 button {
   background: var(--accent);
   color: #1a110a;
   border: none;
-  padding: 8px 14px;
+  padding: 10px 14px;
   border-radius: 4px;
   font-weight: 600;
   cursor: pointer;
+  font-size: 0.9rem;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 button:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -322,6 +339,7 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
   font-size: 0.8rem;
   color: #cdd;
   text-align: center;
+  width: 100%;
 }
 
 .mp-link-row {
@@ -329,10 +347,11 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
   gap: 6px;
   margin-top: 6px;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .mp-link-row input {
-  width: 320px;
+  width: min(320px, 80vw);
   padding: 6px 8px;
   border-radius: 4px;
   border: 1px solid #444;
@@ -356,11 +375,12 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
 #menu-panel {
   position: fixed;
   top: 70px;
-  right: 70px;
+  right: clamp(10px, 5vw, 70px);
   background: var(--rail-bg);
   padding: 12px 16px;
   border-radius: 8px;
   font-size: 0.85rem;
+  z-index: 10;
 }
 #menu-panel.hidden { display: none; }
 
@@ -371,6 +391,7 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 16px;
 }
 
 #rating-modal.hidden { display: none; }
@@ -379,9 +400,54 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
   background: #1a1a2e;
   padding: 24px 32px;
   border-radius: 8px;
-  min-width: 320px;
+  min-width: min(320px, 100%);
+  max-width: 100%;
 }
 
 #rating-table { width: 100%; margin: 16px 0; border-collapse: collapse; }
 #rating-table td { padding: 6px 4px; border-bottom: 1px solid #333; }
 #rating-table td:last-child { text-align: right; font-weight: 600; color: var(--accent); }
+
+/* ---------- Mobile layout (phones) ---------- */
+@media (max-width: 680px) {
+  #app {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 8px;
+    gap: 6px;
+  }
+
+  #left-rail {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    order: 1;
+  }
+
+  .player-card {
+    flex: 1;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .match-meta {
+    display: none;
+  }
+
+  #table {
+    order: 2;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  #right-rail {
+    order: 3;
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  #bottom-bar {
+    padding: 0 8px;
+  }
+}
