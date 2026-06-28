@@ -16,6 +16,8 @@
 
 html, body {
   margin: 0;
+  width: 100%;
+  max-width: 100vw;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: var(--bg);
   color: #eee;
@@ -26,6 +28,10 @@ html, body {
 body {
   min-height: 100dvh;
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+#app, #table, #bottom-bar {
+  max-width: 100vw;
 }
 
 #app {
