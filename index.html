@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Backgammon Equity Trainer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+
+    <div id="left-rail">
+      <div class="player-card opponent">
+        <div class="avatar avatar-black">B</div>
+        <div class="player-meta">
+          <div class="player-name">Opponent</div>
+          <div class="player-rating">Rating —</div>
+        </div>
+      </div>
+      <div class="match-meta">
+        <div>Length 1</div>
+        <div>Stake 0</div>
+      </div>
+      <div class="player-card self">
+        <div class="avatar avatar-white">Y</div>
+        <div class="player-meta">
+          <div class="player-name">You</div>
+          <div class="player-rating">Rating —</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="table">
+      <div class="board-panel" id="panel-left">
+        <div class="pip-badge pip-top" id="pip-black"></div>
+        <div class="quad-row top" id="top-left"></div>
+        <div class="quad-row bottom" id="bottom-left"></div>
+        <div class="pip-badge pip-bottom" id="pip-white"></div>
+      </div>
+
+      <div class="center-strip">
+        <div class="clock clock-top">--:--</div>
+        <div class="bar-zone" id="bar-top"></div>
+        <div id="dice-area"></div>
+        <button id="undo-btn" disabled>Undo</button>
+        <div class="bar-zone" id="bar-bottom"></div>
+        <div class="clock clock-bottom">--:--</div>
+      </div>
+
+      <div class="board-panel" id="panel-right">
+        <div class="quad-row top" id="top-right"></div>
+        <div class="quad-row bottom" id="bottom-right"></div>
+      </div>
+    </div>
+
+    <div id="right-rail">
+      <button class="icon-btn" id="menu-btn" title="Menu">&#9776;</button>
+    </div>
+
+  </div>
+
+  <div id="bottom-bar">
+    <div id="turn-info">Press "New Game" to start</div>
+    <div id="controls">
+      <button id="new-game-btn">New Game</button>
+      <button id="roll-btn" disabled>Roll Dice</button>
+    </div>
+    <div id="log"></div>
+  </div>
+
+  <div id="menu-panel" class="hidden">
+    <div>White off: <span id="white-off">0</span></div>
+    <div>Black off: <span id="black-off">0</span></div>
+  </div>
+
+  <div id="rating-modal" class="hidden">
+    <div id="rating-modal-content">
+      <h2 id="result-title"></h2>
+      <table id="rating-table">
+        <tr><td>Decisions made</td><td id="stat-decisions"></td></tr>
+        <tr><td>Total equity lost</td><td id="stat-total-error"></td></tr>
+        <tr><td>Avg error / move</td><td id="stat-avg-error"></td></tr>
+        <tr><td>Rating</td><td id="stat-rating"></td></tr>
+      </table>
+      <button id="close-modal-btn">Play Again</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
