@@ -1,0 +1,540 @@
+/* =====================================================================
+   Regency Gammon — Landing Page
+   ===================================================================== */
+
+:root {
+  --surface:                  #16130c;
+  --surface-container-low:    #1e1b13;
+  --surface-container:        #221f17;
+  --surface-container-high:   #2d2a21;
+  --surface-container-highest:#38352c;
+  --on-surface:         #e9e2d5;
+  --on-surface-variant: #c3c8c1;
+  --outline-variant: #434843;
+  --outline:         #8d928c;
+  --tertiary:        #e9c176;
+  --on-tertiary:     #412d00;
+  --wood:            #4a2c2a;
+  --felt:            #1b3022;
+  --felt-light:      #2e5c3a;
+  --felt-dark:       #1a3d25;
+  --radius-md:  0.375rem;
+  --radius-lg:  0.5rem;
+  --radius-xl:  0.75rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'Source Sans 3', -apple-system, sans-serif;
+  background: var(--surface);
+  color: var(--on-surface);
+  min-height: 100dvh;
+  padding-bottom: 80px; /* room for bottom nav */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) calc(80px + env(safe-area-inset-bottom)) env(safe-area-inset-left);
+}
+
+/* ── Header ── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: rgba(22,19,12,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.hamburger {
+  background: none;
+  border: none;
+  color: var(--on-surface);
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-md);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  box-shadow: none;
+}
+
+.site-logo {
+  font-family: 'Libre Caslon Text', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--tertiary);
+}
+
+.join-header-btn {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1.5px solid var(--tertiary);
+  background: transparent;
+  color: var(--tertiary);
+  padding: 7px 14px;
+  border-radius: var(--radius-xl);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, color 0.15s;
+  box-shadow: none;
+}
+.join-header-btn:hover {
+  background: var(--tertiary);
+  color: var(--on-tertiary);
+}
+
+/* ── Hero ── */
+.hero {
+  padding: 36px 24px 20px;
+  max-width: 520px;
+}
+
+.hero-title {
+  font-family: 'Libre Caslon Text', serif;
+  font-size: clamp(2rem, 8vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--tertiary);
+  margin-bottom: 14px;
+}
+
+.hero-sub {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--on-surface-variant);
+}
+
+/* ── Arena cards ── */
+.arenas {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.arena-card {
+  background: var(--surface-container-low);
+  border-bottom: 1px solid var(--outline-variant);
+  overflow: hidden;
+}
+
+/* ── Board thumbnails ── */
+.board-thumb {
+  width: 100%;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.thumb-royal-green { background: #162a1e; }
+.thumb-midnight-blue { background: #0d1a30; }
+.thumb-walnut { background: #2c1a0e; }
+
+.thumb-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: stretch;
+}
+
+.thumb-points {
+  flex: 1;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.thumb-bar {
+  width: 32px;
+  background: #1a2e1e;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Triangle points via clip-path */
+.tp {
+  flex: 1;
+  height: 100%;
+  position: relative;
+  display: block;
+}
+
+/* Royal Green triangles */
+.tp.light { background: linear-gradient(180deg, #2e5c3a 0%, transparent 80%);
+  clip-path: polygon(0 0, 100% 0, 50% 80%); }
+.tp.dark  { background: linear-gradient(180deg, #1a3d25 0%, transparent 80%);
+  clip-path: polygon(0 0, 100% 0, 50% 80%); }
+
+/* Midnight Blue triangles */
+.tp.light-b { background: linear-gradient(180deg, #2a4a7a 0%, transparent 80%);
+  clip-path: polygon(0 0, 100% 0, 50% 80%); }
+.tp.dark-b  { background: linear-gradient(180deg, #152d55 0%, transparent 80%);
+  clip-path: polygon(0 0, 100% 0, 50% 80%); }
+
+/* Walnut triangles */
+.tp.light-w { background: linear-gradient(180deg, #8b4c1a 0%, transparent 80%);
+  clip-path: polygon(0 0, 100% 0, 50% 80%); }
+.tp.dark-w  { background: linear-gradient(180deg, #5c3010 0%, transparent 80%);
+  clip-path: polygon(0 0, 100% 0, 50% 80%); }
+
+/* Checkers overlay */
+.thumb-checkers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.tc {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  top: 10px;
+  display: block;
+}
+
+.tc.white {
+  background: radial-gradient(circle at 35% 30%, #fff, #d8d0c4);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  border: 1px solid rgba(180,160,140,0.4);
+}
+
+.tc.black {
+  background: radial-gradient(circle at 35% 30%, #3a3a4a, #0d0d12);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.7);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.tc.ivory {
+  background: radial-gradient(circle at 35% 30%, #f5f0e4, #c8bfa8);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  border: 1px solid rgba(200,180,140,0.5);
+}
+
+/* Wood-frame overlay on thumbnail */
+.board-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.5), inset 0 -20px 30px rgba(0,0,0,0.3);
+  pointer-events: none;
+}
+
+/* ── Card body ── */
+.card-body {
+  padding: 20px 20px 24px;
+}
+
+.badge {
+  display: inline-block;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tertiary);
+  border: 1px solid rgba(233,193,118,0.4);
+  border-radius: 2px;
+  padding: 2px 8px;
+  margin-bottom: 10px;
+}
+
+.badge-silver {
+  color: #bcc7dd;
+  border-color: rgba(188,199,221,0.4);
+}
+
+.badge-warm {
+  color: #c4924a;
+  border-color: rgba(196,146,74,0.4);
+}
+
+.arena-title {
+  font-family: 'Libre Caslon Text', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--on-surface);
+  margin-bottom: 10px;
+}
+
+.arena-desc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--on-surface-variant);
+  margin-bottom: 18px;
+}
+
+.stats-row {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stat-icon {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.stat-val {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--on-surface);
+}
+
+.stat-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--on-surface-variant);
+  letter-spacing: 0.06em;
+  margin-left: -2px;
+  align-self: flex-end;
+  padding-bottom: 1px;
+}
+
+/* ── Play button ── */
+.play-btn {
+  width: 100%;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: none;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  background: linear-gradient(180deg, #f0cb80 0%, #e9c176 40%, #c9a050 100%);
+  color: #412d00;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.5) inset,
+    0 -1px 0 rgba(0,0,0,0.2) inset,
+    0 3px 10px rgba(0,0,0,0.4);
+  transition: filter 0.15s, transform 0.1s;
+}
+
+.play-btn:hover   { filter: brightness(1.06); }
+.play-btn:active  { transform: translateY(1px); }
+
+/* ── Bottom nav ── */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: rgba(22,19,12,0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--outline-variant);
+  padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: var(--on-surface-variant);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 16px;
+  border-radius: var(--radius-md);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.15s;
+}
+
+.nav-item:hover, .nav-item.active {
+  color: var(--tertiary);
+  filter: none;
+  background: none;
+  box-shadow: none;
+}
+
+.nav-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* ── Join Room Modal ── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 100;
+}
+
+.modal-backdrop.hidden { display: none; }
+
+.modal-box {
+  background: var(--surface-container-low);
+  background-image:
+    repeating-linear-gradient(92deg, transparent, transparent 4px, rgba(255,255,255,0.012) 4px, rgba(255,255,255,0.012) 8px);
+  border: 1px solid var(--tertiary);
+  border-radius: var(--radius-xl);
+  padding: 32px clamp(14px, 5vw, 28px) 28px;
+  width: min(400px, 100%);
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(233,193,118,0.1) inset;
+}
+
+/* Brass top bar */
+.modal-box::before {
+  content: '';
+  display: block;
+  height: 3px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, var(--tertiary), transparent);
+  margin-bottom: 24px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: var(--on-surface-variant);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-md);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.modal-close:hover { color: var(--on-surface); background: none; }
+
+.modal-title {
+  font-family: 'Libre Caslon Text', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--tertiary);
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.modal-sub {
+  font-size: 0.88rem;
+  color: var(--on-surface-variant);
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+/* OTP code inputs */
+.code-inputs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(4px, 1.5vw, 8px);
+  margin-bottom: 12px;
+}
+
+.code-cell {
+  width: clamp(34px, 9vw, 44px);
+  height: clamp(46px, 12vw, 56px);
+  text-align: center;
+  font-family: 'Geist Mono', monospace;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--surface-container);
+  color: var(--on-surface);
+  border: 1.5px solid var(--outline-variant);
+  border-radius: var(--radius-md);
+  outline: none;
+  caret-color: var(--tertiary);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  /* reset button styles */
+  padding: 0;
+}
+
+.code-cell:focus {
+  border-color: var(--tertiary);
+  box-shadow: 0 0 0 3px rgba(233,193,118,0.2);
+}
+
+.code-dash {
+  font-family: 'Geist Mono', monospace;
+  font-size: 1.2rem;
+  color: var(--outline-variant);
+  user-select: none;
+  padding: 0 2px;
+}
+
+.code-error {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.72rem;
+  color: #ffb4ab;
+  text-align: center;
+  margin-bottom: 12px;
+  letter-spacing: 0.04em;
+}
+
+.code-error.hidden { display: none; }
+
+.join-submit-btn {
+  margin-top: 8px;
+}
+
+/* ── Responsive ── */
+@media (min-width: 640px) {
+  .arenas {
+    padding: 0 24px;
+  }
+
+  .arena-card {
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--outline-variant);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+
+  .board-thumb {
+    height: 240px;
+  }
+}

@@ -71,13 +71,10 @@ function mpCreateRoom() {
     initial.meta = { hostColor: 'white', guestJoined: false };
 
     MP.ref.set(initial).then(() => {
-      console.log('[mp] room write succeeded');
       mpSubscribe();
-      const link = window.location.origin + window.location.pathname + '?room=' + roomId;
-      mpShowStatus(`Room created — you are White. Share this link with your friend:`, link);
+      mpShowRoomCode(roomId);
       render();
     }).catch(err => {
-      console.error('[mp] room write failed', err);
       mpShowStatus('Could not create room: ' + err.message, null);
     });
   } catch (err) {
@@ -110,24 +107,53 @@ function mpShowStatus(text, link) {
   const p = document.createElement('div');
   p.textContent = text;
   el.appendChild(p);
-  if (link) {
-    const linkRow = document.createElement('div');
-    linkRow.className = 'mp-link-row';
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.readOnly = true;
-    input.value = link;
-    const btn = document.createElement('button');
-    btn.textContent = 'Copy';
-    btn.onclick = () => {
-      navigator.clipboard.writeText(link);
-      btn.textContent = 'Copied!';
-      setTimeout(() => (btn.textContent = 'Copy'), 1500);
-    };
-    linkRow.appendChild(input);
-    linkRow.appendChild(btn);
-    el.appendChild(linkRow);
-  }
+}
+
+function mpShowRoomCode(roomId) {
+  const el = document.getElementById('mp-status');
+  el.innerHTML = '';
+
+  const label = document.createElement('div');
+  label.textContent = 'You are White — share this code with your friend:';
+  label.style.cssText = 'font-size:0.82rem;color:var(--on-surface-variant);margin-bottom:10px;';
+  el.appendChild(label);
+
+  const codeRow = document.createElement('div');
+  codeRow.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;';
+
+  const codeDisplay = document.createElement('div');
+  const half1 = roomId.slice(0, 3);
+  const half2 = roomId.slice(3);
+  codeDisplay.textContent = half1 + ' — ' + half2;
+  codeDisplay.style.cssText = [
+    'font-family:Geist Mono,monospace',
+    'font-size:clamp(1.6rem,5vw,2.2rem)',
+    'font-weight:700',
+    'letter-spacing:0.18em',
+    'color:var(--tertiary)',
+    'background:var(--surface-container)',
+    'border:1.5px solid var(--tertiary)',
+    'border-radius:0.5rem',
+    'padding:10px 20px',
+    'user-select:all',
+  ].join(';');
+  codeRow.appendChild(codeDisplay);
+
+  const copyBtn = document.createElement('button');
+  copyBtn.textContent = 'COPY';
+  copyBtn.style.cssText = 'min-width:70px;padding:10px 14px;font-size:0.72rem;';
+  copyBtn.onclick = () => {
+    navigator.clipboard.writeText(roomId);
+    copyBtn.textContent = 'COPIED!';
+    setTimeout(() => (copyBtn.textContent = 'COPY'), 1800);
+  };
+  codeRow.appendChild(copyBtn);
+  el.appendChild(codeRow);
+
+  const hint = document.createElement('div');
+  hint.textContent = 'Waiting for opponent to join…';
+  hint.style.cssText = 'font-size:0.75rem;color:var(--on-surface-variant);margin-top:8px;';
+  el.appendChild(hint);
 }
 
 function mpInit() {

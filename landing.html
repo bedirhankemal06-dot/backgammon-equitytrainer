@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Regency Gammon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;600&family=Geist+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="landing.css">
+</head>
+<body>
+
+  <!-- ── Top Header ── -->
+  <header class="site-header">
+    <button class="hamburger" aria-label="Menu">&#9776;</button>
+    <span class="site-logo">REGENCY GAMMON</span>
+    <button class="join-header-btn" id="open-join-btn">JOIN ROOM</button>
+  </header>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <h1 class="hero-title">Choose Your<br>Arena</h1>
+    <p class="hero-sub">Select a board that matches your strategy.<br>Each arena offers a unique tactile experience<br>and a distinct community of players.</p>
+  </section>
+
+  <!-- ── Arena Cards ── -->
+  <main class="arenas">
+
+    <!-- Royal Green -->
+    <article class="arena-card" data-arena="royal-green">
+      <div class="board-thumb thumb-royal-green">
+        <div class="thumb-inner">
+          <div class="thumb-points top">
+            <span class="tp light"></span><span class="tp dark"></span><span class="tp light"></span><span class="tp dark"></span><span class="tp light"></span><span class="tp dark"></span>
+          </div>
+          <div class="thumb-bar"></div>
+          <div class="thumb-points top">
+            <span class="tp light"></span><span class="tp dark"></span><span class="tp light"></span><span class="tp dark"></span><span class="tp light"></span><span class="tp dark"></span>
+          </div>
+          <div class="thumb-checkers">
+            <span class="tc white" style="left:7%"></span>
+            <span class="tc white" style="left:7%; top:22px"></span>
+            <span class="tc black" style="left:57%"></span>
+            <span class="tc black" style="left:57%; top:22px"></span>
+            <span class="tc black" style="left:57%; top:44px"></span>
+            <span class="tc white" style="right:7%"></span>
+            <span class="tc white" style="right:7%; top:22px"></span>
+            <span class="tc white" style="right:7%; top:44px"></span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <span class="badge">PREMIUM SELECTION</span>
+        <h2 class="arena-title">The Royal Green</h2>
+        <p class="arena-desc">Experience the prestige of our flagship board. Rich forest green felt paired with handcrafted oak. Preferred by traditionalists.</p>
+        <div class="stats-row">
+          <div class="stat"><span class="stat-icon">&#128101;</span><span class="stat-val">1,248</span><span class="stat-label">ACTIVE</span></div>
+          <div class="stat"><span class="stat-icon">&#9889;</span><span class="stat-val">LOW</span><span class="stat-label">LATENCY</span></div>
+        </div>
+        <button class="play-btn" onclick="selectArena('index.html')">SELECT &amp; PLAY</button>
+      </div>
+    </article>
+
+    <!-- Midnight Blue -->
+    <article class="arena-card" data-arena="midnight-blue">
+      <div class="board-thumb thumb-midnight-blue">
+        <div class="thumb-inner">
+          <div class="thumb-points top">
+            <span class="tp light-b"></span><span class="tp dark-b"></span><span class="tp light-b"></span><span class="tp dark-b"></span><span class="tp light-b"></span><span class="tp dark-b"></span>
+          </div>
+          <div class="thumb-bar" style="background:#1a2540"></div>
+          <div class="thumb-points top">
+            <span class="tp light-b"></span><span class="tp dark-b"></span><span class="tp light-b"></span><span class="tp dark-b"></span><span class="tp light-b"></span><span class="tp dark-b"></span>
+          </div>
+          <div class="thumb-checkers">
+            <span class="tc white" style="left:7%"></span>
+            <span class="tc white" style="left:7%; top:22px"></span>
+            <span class="tc black" style="left:57%"></span>
+            <span class="tc black" style="left:57%; top:22px"></span>
+            <span class="tc white" style="right:7%"></span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <span class="badge badge-silver">MODERN NOBLE</span>
+        <h2 class="arena-title">The Midnight Blue</h2>
+        <p class="arena-desc">A contemporary masterpiece. Deep navy leather with silver-etched inlays for those who play by night.</p>
+        <div class="stats-row">
+          <div class="stat"><span class="stat-icon">&#128101;</span><span class="stat-val">842</span><span class="stat-label">ACTIVE</span></div>
+          <div class="stat"><span class="stat-icon">&#9733;</span><span class="stat-val">EXPERT</span><span class="stat-label">ONLY</span></div>
+        </div>
+        <button class="play-btn" onclick="selectArena('index.html')">SELECT &amp; PLAY</button>
+      </div>
+    </article>
+
+    <!-- Classic Walnut -->
+    <article class="arena-card" data-arena="classic-walnut">
+      <div class="board-thumb thumb-walnut">
+        <div class="thumb-inner">
+          <div class="thumb-points top">
+            <span class="tp light-w"></span><span class="tp dark-w"></span><span class="tp light-w"></span><span class="tp dark-w"></span><span class="tp light-w"></span><span class="tp dark-w"></span>
+          </div>
+          <div class="thumb-bar" style="background:#3a2010"></div>
+          <div class="thumb-points top">
+            <span class="tp light-w"></span><span class="tp dark-w"></span><span class="tp light-w"></span><span class="tp dark-w"></span><span class="tp light-w"></span><span class="tp dark-w"></span>
+          </div>
+          <div class="thumb-checkers">
+            <span class="tc ivory" style="left:7%"></span>
+            <span class="tc ivory" style="left:7%; top:22px"></span>
+            <span class="tc ivory" style="left:7%; top:44px"></span>
+            <span class="tc black" style="left:57%"></span>
+            <span class="tc black" style="left:57%; top:22px"></span>
+            <span class="tc ivory" style="right:7%"></span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <span class="badge badge-warm">VINTAGE HERITAGE</span>
+        <h2 class="arena-title">The Classic Walnut</h2>
+        <p class="arena-desc">Our most storied board. Traditional walnut wood with brass gold highlights and ivory-toned checkers.</p>
+        <div class="stats-row">
+          <div class="stat"><span class="stat-icon">&#128101;</span><span class="stat-val">2,105</span><span class="stat-label">ACTIVE</span></div>
+          <div class="stat"><span class="stat-icon">&#8635;</span><span class="stat-val">TRADITIONAL</span><span class="stat-label">RULES</span></div>
+        </div>
+        <button class="play-btn" onclick="selectArena('index.html')">SELECT &amp; PLAY</button>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- ── Bottom Nav ── -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="location.href='landing.html'">
+      <span class="nav-icon">&#9634;</span>
+      <span>Play</span>
+    </button>
+    <button class="nav-item">
+      <span class="nav-icon">&#128722;</span>
+      <span>Store</span>
+    </button>
+    <button class="nav-item">
+      <span class="nav-icon">&#128101;</span>
+      <span>Social</span>
+    </button>
+    <button class="nav-item">
+      <span class="nav-icon">&#128100;</span>
+      <span>Profile</span>
+    </button>
+  </nav>
+
+  <!-- ── Join Room Modal ── -->
+  <div id="join-modal" class="modal-backdrop hidden">
+    <div class="modal-box">
+      <button class="modal-close" id="close-join-btn">&times;</button>
+      <h2 class="modal-title">Enter Room Code</h2>
+      <p class="modal-sub">Ask the host for their 6-character code</p>
+      <div class="code-inputs" id="code-inputs">
+        <input class="code-cell" maxlength="1" inputmode="text" autocomplete="off">
+        <input class="code-cell" maxlength="1" inputmode="text" autocomplete="off">
+        <input class="code-cell" maxlength="1" inputmode="text" autocomplete="off">
+        <span class="code-dash">—</span>
+        <input class="code-cell" maxlength="1" inputmode="text" autocomplete="off">
+        <input class="code-cell" maxlength="1" inputmode="text" autocomplete="off">
+        <input class="code-cell" maxlength="1" inputmode="text" autocomplete="off">
+      </div>
+      <p class="code-error hidden" id="code-error">Please enter all 6 characters.</p>
+      <button class="play-btn join-submit-btn" id="join-submit-btn">JOIN ROOM</button>
+    </div>
+  </div>
+
+<script>
+  // ── Arena selection ──
+  function selectArena(url) {
+    window.location.href = url;
+  }
+
+  // ── Join modal ──
+  const modal    = document.getElementById('join-modal');
+  const openBtn  = document.getElementById('open-join-btn');
+  const closeBtn = document.getElementById('close-join-btn');
+  const submitBtn = document.getElementById('join-submit-btn');
+  const cells    = Array.from(document.querySelectorAll('.code-cell'));
+  const errEl    = document.getElementById('code-error');
+
+  openBtn.addEventListener('click', () => {
+    modal.classList.remove('hidden');
+    cells.forEach(c => c.value = '');
+    errEl.classList.add('hidden');
+    cells[0].focus();
+  });
+
+  closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+  modal.addEventListener('click', e => { if (e.target === modal) modal.classList.add('hidden'); });
+
+  // OTP-style input: auto-advance, backspace goes back, paste fills all
+  cells.forEach((cell, i) => {
+    cell.addEventListener('input', () => {
+      const v = cell.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+      cell.value = v.slice(-1);
+      if (v && i < cells.length - 1) cells[i + 1].focus();
+      errEl.classList.add('hidden');
+    });
+
+    cell.addEventListener('keydown', e => {
+      if (e.key === 'Backspace' && !cell.value && i > 0) {
+        cells[i - 1].focus();
+        cells[i - 1].value = '';
+      }
+      if (e.key === 'Enter') submitJoin();
+    });
+
+    cell.addEventListener('paste', e => {
+      e.preventDefault();
+      const text = (e.clipboardData || window.clipboardData).getData('text').toUpperCase().replace(/[^A-Z0-9]/g, '');
+      cells.forEach((c, j) => { c.value = text[j] || ''; });
+      const lastFilled = Math.min(text.length, cells.length) - 1;
+      if (lastFilled >= 0) cells[lastFilled].focus();
+    });
+  });
+
+  submitBtn.addEventListener('click', submitJoin);
+
+  function submitJoin() {
+    const code = cells.map(c => c.value).join('');
+    if (code.length < 6) {
+      errEl.classList.remove('hidden');
+      cells.find(c => !c.value)?.focus();
+      return;
+    }
+    window.location.href = 'index.html?room=' + code.toUpperCase();
+  }
+</script>
+</body>
+</html>
