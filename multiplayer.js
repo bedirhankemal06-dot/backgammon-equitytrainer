@@ -55,7 +55,17 @@ function mpSubscribe() {
 }
 
 function mpCreateRoom() {
-  console.log('[mp] Create Game clicked');
+  if (typeof firebase === 'undefined' || !firebase.apps || !firebase.apps.length) {
+    mpShowStatus('Could not reach Firebase. If you use an ad blocker or privacy extension, allow gstatic.com / firebaseio.com for this site and reload.', null);
+    return;
+  }
+
+  mpShowStatus('Creating room…', null);
+
+  const watchdog = setTimeout(() => {
+    mpShowStatus('Still waiting on the server — this is taking longer than usual. Check your connection or try again.', null);
+  }, 6000);
+
   try {
     const roomId = randomRoomId();
     state = freshState();
@@ -65,19 +75,22 @@ function mpCreateRoom() {
     MP.roomId = roomId;
     MP.myColor = 'white';
     MP.ref = firebase.database().ref('games/' + roomId);
-    console.log('[mp] room ref created', roomId);
 
     const initial = mpExtractSyncable(state);
     initial.meta = { hostColor: 'white', guestJoined: false };
 
     MP.ref.set(initial).then(() => {
+      clearTimeout(watchdog);
       mpSubscribe();
       mpShowRoomCode(roomId);
       render();
     }).catch(err => {
+      clearTimeout(watchdog);
+      console.error('[mp] room write failed', err);
       mpShowStatus('Could not create room: ' + err.message, null);
     });
   } catch (err) {
+    clearTimeout(watchdog);
     console.error('[mp] mpCreateRoom threw synchronously', err);
     mpShowStatus('Error: ' + err.message, null);
   }
